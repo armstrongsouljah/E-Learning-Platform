@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main_content %}
+<div class="row">
+    <div class="col col-sm-8 col-md-6 col-lg-6 offset-md-3 offset-lg-3 mt-4">
+            <form action="/accounts/login/" method="POST">
+                {% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" value="Login" class="btn btn-block btn-success">
+                <div class="row text-muted small mt-2">
+                    <div class="col-6">
+                        <p class="text-left">Forgot password? <a href="/accounts/password_reset">Reset it.</a></p>
+                    </div>
+                    <div class="col6">New here? <a href="{% url 'authentication:register' %}">Create an account</a></div>
+                </div>
+            </form>
+    </div>
+</div>
+  
+{% endblock %}
+
+{% block footer_content %}{% endblock %}

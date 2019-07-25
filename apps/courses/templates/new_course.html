@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} New Course | {{block.super}} {% endblock %}
+
+{% block main_content %}
+<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 mb-2">
+    <form method="POST">
+        {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" class="btn btn-block btn-success" value="Save Course"/>
+    </form>
+</div>
+   
+{% endblock %}
+
+{% block footer_content %}{% endblock %}

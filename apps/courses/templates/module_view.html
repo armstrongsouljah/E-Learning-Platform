@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Viewing | {{block.super}} {% endblock %}
+
+{% block header_content %}
+   <h4 class="text-center lead">{{module.module_name|upper}}</h4>
+{% endblock %}
+
+{% block main_content %} 
+  <div class="col-md-8 offset-md-2 col-lg-8 offset-lg-2">    
+            <video class="embed-responsive" src="/media/{{module.resource}}" controls></video>
+            <div class="card p-2 mx-1 my-1">
+                {% if request.user.is_authenticated and request.user.instructor and request.user == module.course_package.course_author %}
+              <ul class="nav">
+                <li class="nav-item mr-2">
+                  <a href="{{request.build_absolute_uri}}edit/" class="nav-link">Edit</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a href="{{request.build_absolute_uri}}delete/" class="nav-link">Delete</a>
+                </li>
+              </ul>
+              {% endif %}
+              <p class="text-muted">
+                {{module.description}}
+              </p>
+            </div>
+  </div>
+{% endblock %}
+
+{% block  footer_content %}{% endblock %}

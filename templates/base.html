@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,17 +8,39 @@
     <title>{% block title %}E-Learning{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" />
+   <style>
+       body{
+           height:750px;
+       }
+       .footer{
+           position: fixed;
+           width:100%;
+           bottom: 0px;
+           color:#888;
+       }
+       .banner-section{
+           background-image: url("{% static 'images/banner.png' %}");
+           background-size:cover;
+           height:44vh;
+       }
+   </style>
 </head>
 <body>
-            {% include 'navbar.html' %}
-    <div class="container">
+    {% include 'navbar.html' %}
+    <div class="container-fluid mb-4"></div>
         {%block header_content %}
-            <h2 class="h4 text-center mt-2">E-Learning Platform</h2>
+            <h4 class="h4 text-center mt-2 text-muted">E-Learning Platform</h4>
         {% endblock %}
         {% block main_content %}Main Content{% endblock %}
-    {% block footer_content %}Footer content{% endblock %}
     </div>
 </body>
+        {% block footer_content %}
+            <footer class="footer mt-4 py-4 bg-dark">
+                <div class="container-fluid">
+                    <p class="text-center">&copy; E-Learning {% now 'Y' %}</p>
+                </div>
+            </footer>
+        {% endblock %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

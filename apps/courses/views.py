@@ -5,14 +5,16 @@ from django.views.generic import (
     DeleteView,
     UpdateView,
     ListView,
-    DetailView
+    DetailView,
+    FormView
 )
 from django.urls import reverse_lazy
-from .models import CourseModule, CoursePackage
+from .models import CourseModule, CoursePackage, Rating
 from .forms import (
     CoursePackageAddForm,
     CourseModuleAddForm,
     CoursePackageEditForm,
+    RatingForm
 )
 
 
@@ -22,14 +24,40 @@ class CoursePackageList(ListView):
     template_name = 'course_list.html'
 
 
-class CourseDetailView(DetailView):
-    model = CoursePackage
+class CourseDetailView(DetailView, CreateView):
+    model = Rating
+    form_class = RatingForm
     template_name = 'course_detail.html'
     context_object_name = 'course'
 
-    def get_object(self):
+
+    def get_object(self, *args, **kwargs):
         course_slug = self.kwargs.get("course_slug")
         return get_object_or_404(CoursePackage, course_slug=course_slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        has_rated = Rating.objects.filter(student=self.request.user, course=self.get_object()).exists()
+        context['average_rating'] = self.get_object().average_rating
+        context['has_rated'] = has_rated
+        context['form'] = RatingForm
+        return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.student = self.request.user
+        instance.course = self.get_object()
+        return super().form_valid(form)
+
+class RatingView(CreateView):
+    model = Rating
+    form_class = RatingForm
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.student = self.request.user.student
+        instance.course = CoursePackage.objects.get(course_slug=self.kwargs.get('course_slug'))
+        return super(RatingView, self).form_valid(form)
 
 
 class CourseModuleDetailView(DetailView):

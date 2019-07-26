@@ -34,3 +34,4 @@ exclude_patterns:
 - "**/tests_/"
 - "**/migrations/"
 - "**/tests/"
+- "static/*"

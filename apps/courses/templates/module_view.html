@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load cloudinary %}
+{% cloudinary_includes %}
+{% cloudinary_js_config %}
 {% load static %}
 {% block title %}Viewing | {{block.super}} {% endblock %}
 
@@ -8,7 +11,8 @@
 
 {% block main_content %} 
   <div class="col-md-8 offset-md-2 col-lg-8 offset-lg-2">    
-            <video class="embed-responsive" src="/media/{{module.resource}}" controls></video>
+          
+            <video class="embed-responsive" src="{{module.resource.url}}" controls></video>
             <div class="card p-2 mx-1 my-1">
                 {% if request.user.is_authenticated and request.user.instructor and request.user == module.course_package.course_author %}
               <ul class="nav">

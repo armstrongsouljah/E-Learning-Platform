@@ -19,6 +19,12 @@
           <p class="text-muted">
               {{course.course_details}}
           </p>
+          <p> <span class="mr-3">Rating: {{average_rating}}</span> 
+            {% if request.user.student and not has_rated %}
+            <form method="POST" action="{{request.build_absolute_uri}}" class=" form-inline">{% include 'rating_form.html' %}</form>
+            {% endif %}
+          </p>
+           
           <ul class="list-group">
                 {% for item in course.coursemodule_set.all %}
                 <li class="list-group-item"><a href="{{request.build_absolute_uri}}{{item.module_code}}">{{item.module_name}}</a></li>

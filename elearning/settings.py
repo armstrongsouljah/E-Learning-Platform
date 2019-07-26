@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from decouple import config, Csv
 import dj_database_url
+import cloudinary
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 's6poy9xc*g^1f+5#r6#u(4)t4jp_#=t_##x*_@r7dr+!q&wm$c'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
@@ -42,10 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.landing',
     'apps.courses',
-    'crispy_forms'
+    'crispy_forms',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 MIDDLEWARE = [
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,6 +137,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static', 'development')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'production')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #media settings
 MEDIA_URL = '/media/'
@@ -151,3 +156,16 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
 
+# MEDIA FILES WITH CLOUDINARY
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET'),
+    'SECURE': True,
+    'MAGIC_FILE_PATH': 'magic',
+    'PREFIX': MEDIA_URL
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+
+MAX_UPLOAD_SIZE = 209715200

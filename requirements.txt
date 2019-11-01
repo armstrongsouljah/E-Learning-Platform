@@ -4,7 +4,7 @@ cloudinary==1.16.0
 coverage==4.5.3
 coveralls==1.8.1
 dj-database-url==0.5.0
-Django==2.2.3
+Django==2.2.4
 django-cloudinary-storage==0.2.3
 django-crispy-forms==1.7.2
 docopt==0.6.2
